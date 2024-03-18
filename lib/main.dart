@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:login/individual_signup.dart';
+import 'package:login/vendor_signup.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() => runApp(MyApp());
@@ -164,46 +166,6 @@ class _SignUpState extends State<SignUp> {
             ),
           ),
         ),
-      ),
-    );
-  }
-}
-
-class IndividualSignUp extends StatelessWidget {
-  const IndividualSignUp({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Center(
-          child: Column(
-            children: [
-              Text('Individual'),
-              TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: ((context) => VendorSignUp())));
-                  },
-                  child: Text('Sign Out'))
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class VendorSignUp extends StatelessWidget {
-  const VendorSignUp({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        child: Center(child: Text('Vendor')),
       ),
     );
   }

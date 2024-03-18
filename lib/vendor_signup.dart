@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 
+void main() {
+  runApp(MaterialApp(home: VendorSignUp()));
+}
+
+
 class VendorSignUp extends StatelessWidget {
-  const VendorSignUp({super.key});
+  const VendorSignUp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
