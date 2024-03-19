@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:login/individual_signup.dart';
+import 'package:login/profile.dart';
 import 'package:login/vendor_signup.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -59,25 +60,26 @@ class _SignUpState extends State<SignUp> {
   }
 
   void navigateToSelectedPage() {
-    if (logindata.containsKey('profileSetupCompleted')) {
-      // Profile setup is completed, navigate to appropriate page
-      if (selectedOption == 'individual') {
+    if (selectedOption == 'individual') {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => IndividualSignUp()),
+      );
+    } else if (selectedOption == 'vendor') {
+      bool isFirstTimeVendorPageClicked =
+          !logindata.containsKey('vendorPageClicked');
+      if (isFirstTimeVendorPageClicked) {
+        logindata.setBool('vendorPageClicked', true);
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => IndividualSignUp()),
+          MaterialPageRoute(builder: (context) => ProfileSetup()),
         );
-      } else if (selectedOption == 'vendor') {
+      } else {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => VendorSignUp()),
         );
       }
-    } else {
-      // Profile setup not completed, navigate to profile setup page
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => ProfileSetup()),
-      );
     }
   }
 
@@ -164,49 +166,6 @@ class _SignUpState extends State<SignUp> {
                 )
               ],
             ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class ProfileSetup extends StatelessWidget {
-  const ProfileSetup({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text('Profile Setup'),
-              ElevatedButton(
-                onPressed: () async {
-                  SharedPreferences logindata =
-                      await SharedPreferences.getInstance();
-                  logindata.setBool('profileSetupCompleted', true);
-                  // Navigate to appropriate page after profile setup
-                  String selectedOption =
-                      logindata.getString('selectedOption')!;
-                  if (selectedOption == 'individual') {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => IndividualSignUp()),
-                    );
-                  } else if (selectedOption == 'vendor') {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => VendorSignUp()),
-                    );
-                  }
-                },
-                child: Text('Profile Complete'),
-              ),
-            ],
           ),
         ),
       ),
